@@ -22,7 +22,7 @@
     <span class="res" title="Electronics">&#x26A1; <b id="res-electronics">0</b><i id="inc-electronics"></i></span>
     <span class="res" title="Rare Metals">&#x1F48E; <b id="res-rare_metals">0</b><i id="inc-rare_metals"></i></span>
     <span class="res" title="Manpower">&#x1F465; <b id="res-manpower">0</b><i id="inc-manpower"></i></span>
-    <span class="res" title="Political Will">&#x2618; <b id="res-political_will">0</b></span>
+    <span class="res" title="Political Will">&#x2618; <b id="res-political_will">0</b><i id="inc-pw"></i></span>
   </div>
   <div id="approval-bar-wrap" title="Overall approval">
     <span id="approval-pct">--</span>%
@@ -48,12 +48,14 @@
 
   <!-- LEFT PANEL -->
   <div id="left-panel">
-    <div class="tabs">
+    <div class="tabs" id="left-tabs">
       <button class="tab active" data-ltab="province">Province</button>
       <button class="tab" data-ltab="build">Build</button>
       <button class="tab" data-ltab="military">Military</button>
       <button class="tab" data-ltab="intel">Intel</button>
     </div>
+
+    <!-- Province Tab -->
     <div id="ltab-province" class="ltab-page">
       <div id="pp-none">Click a province to select it.</div>
       <div id="pp-body" class="hidden">
@@ -72,6 +74,7 @@
         <div id="pp-factions-section">
           <div class="section-label">Faction Population</div>
           <div id="pp-factions-bar"></div>
+          <div id="pp-factions-detail"></div>
         </div>
         <div id="pp-resources-section">
           <div class="section-label">Province Resources</div>
@@ -80,10 +83,12 @@
         <div id="pp-misc"></div>
       </div>
     </div>
+
+    <!-- Build Tab -->
     <div id="ltab-build" class="ltab-page hidden">
       <div id="build-none">Select an owned province first.</div>
       <div id="build-body" class="hidden">
-        <h3>Buildings</h3>
+        <h3>Current Buildings</h3>
         <div id="build-current"></div>
         <h3>Build Queue</h3>
         <div id="build-queue"></div>
@@ -91,6 +96,8 @@
         <div id="build-options"></div>
       </div>
     </div>
+
+    <!-- Military Tab -->
     <div id="ltab-military" class="ltab-page hidden">
       <div id="mil-none">Select a province first.</div>
       <div id="mil-body" class="hidden">
@@ -101,6 +108,8 @@
         <div id="mil-recruit"></div>
       </div>
     </div>
+
+    <!-- Intel Tab -->
     <div id="ltab-intel" class="ltab-page hidden">
       <div id="intel-none">Select an enemy province to view intel options.</div>
       <div id="intel-body" class="hidden">
@@ -124,7 +133,7 @@
 
   <!-- RIGHT PANEL -->
   <div id="right-panel">
-    <div class="tabs">
+    <div class="tabs" id="right-tabs">
       <button class="tab active" data-rtab="nations">Nations</button>
       <button class="tab" data-rtab="diplomacy">Diplomacy</button>
       <button class="tab" data-rtab="politics">Politics</button>
@@ -180,6 +189,20 @@
   </div>
 </div>
 
+<!-- Edict Modal -->
+<div id="edict-modal" class="modal hidden">
+  <div class="modal-box">
+    <h2 id="edict-title">Enact Edict</h2>
+    <p id="edict-desc"></p>
+    <p id="edict-cost-text" style="color:var(--accent)"></p>
+    <div id="edict-effects"></div>
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button id="btn-edict-confirm">Enact</button>
+      <button id="btn-edict-cancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <!-- End Modal -->
 <div id="end-modal" class="modal hidden">
   <div class="modal-box">
@@ -189,6 +212,10 @@
   </div>
 </div>
 
-<script src="game.js"></script>
+<script src="src/data.js"></script>
+<script src="src/engine.js"></script>
+<script src="src/ai.js"></script>
+<script src="src/ui.js"></script>
+<script src="src/main.js"></script>
 </body>
 </html>

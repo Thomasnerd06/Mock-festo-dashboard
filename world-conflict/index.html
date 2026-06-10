@@ -7,20 +7,34 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<!-- ===== TOP BAR ===== -->
 <div id="topbar">
-  <div id="nation-badge"><span id="nation-flag"></span><span id="nation-name">—</span></div>
+  <div id="nation-badge">
+    <span id="nation-flag"></span>
+    <span id="nation-name">World Conflict</span>
+  </div>
   <div id="resources">
-    <span class="res" title="Money">💰 <b id="res-money">0</b><i id="inc-money"></i></span>
-    <span class="res" title="Supplies">📦 <b id="res-supplies">0</b><i id="inc-supplies"></i></span>
-    <span class="res" title="Oil">🛢️ <b id="res-oil">0</b><i id="inc-oil"></i></span>
-    <span class="res" title="Manpower">👥 <b id="res-manpower">0</b><i id="inc-manpower"></i></span>
+    <span class="res" title="Money">&#x1F4B0; <b id="res-money">0</b><i id="inc-money"></i></span>
+    <span class="res" title="Food">&#x1F33E; <b id="res-food">0</b><i id="inc-food"></i></span>
+    <span class="res" title="Oil">&#x1F6E2; <b id="res-oil">0</b><i id="inc-oil"></i></span>
+    <span class="res" title="Steel">&#x2694; <b id="res-steel">0</b><i id="inc-steel"></i></span>
+    <span class="res" title="Electronics">&#x26A1; <b id="res-electronics">0</b><i id="inc-electronics"></i></span>
+    <span class="res" title="Rare Metals">&#x1F48E; <b id="res-rare_metals">0</b><i id="inc-rare_metals"></i></span>
+    <span class="res" title="Manpower">&#x1F465; <b id="res-manpower">0</b><i id="inc-manpower"></i></span>
+    <span class="res" title="Political Will">&#x2618; <b id="res-political_will">0</b></span>
+  </div>
+  <div id="approval-bar-wrap" title="Overall approval">
+    <span id="approval-pct">--</span>%
+    <div id="approval-bar"><div id="approval-fill"></div></div>
   </div>
   <div id="clock">Day <b id="day">1</b>, <b id="hour">00</b>:00</div>
   <div id="speed-controls">
-    <button class="spd" data-spd="0" title="Pause">⏸</button>
-    <button class="spd active" data-spd="1" title="Normal speed">▶</button>
-    <button class="spd" data-spd="2" title="Fast">▶▶</button>
-    <button class="spd" data-spd="3" title="Very fast">▶▶▶</button>
+    <button class="spd" data-spd="0" title="Pause">&#9646;&#9646;</button>
+    <button class="spd active" data-spd="1" title="1x">1x</button>
+    <button class="spd" data-spd="2" title="2x">2x</button>
+    <button class="spd" data-spd="3" title="3x">3x</button>
+    <button class="spd" data-spd="4" title="4x">4x</button>
   </div>
   <div id="sys-controls">
     <button id="btn-save">Save</button>
@@ -29,53 +43,144 @@
   </div>
 </div>
 
+<!-- ===== MAIN LAYOUT ===== -->
 <div id="layout">
+
+  <!-- LEFT PANEL -->
   <div id="left-panel">
-    <div id="province-panel" class="panel">
-      <h2 id="pp-name">No province selected</h2>
+    <div class="tabs">
+      <button class="tab active" data-ltab="province">Province</button>
+      <button class="tab" data-ltab="build">Build</button>
+      <button class="tab" data-ltab="military">Military</button>
+      <button class="tab" data-ltab="intel">Intel</button>
+    </div>
+    <div id="ltab-province" class="ltab-page">
+      <div id="pp-none">Click a province to select it.</div>
       <div id="pp-body" class="hidden">
+        <h2 id="pp-name">—</h2>
         <div id="pp-owner"></div>
-        <div id="pp-info"></div>
+        <div id="pp-terrain"></div>
+        <div id="pp-population"></div>
+        <div id="pp-happiness-section">
+          <div class="section-label">Happiness</div>
+          <div id="pp-happiness-bar-wrap">
+            <div id="pp-happiness-bar"><div id="pp-happiness-fill"></div></div>
+            <span id="pp-happiness-val">0</span>
+          </div>
+          <div id="pp-happiness-factors"></div>
+        </div>
+        <div id="pp-factions-section">
+          <div class="section-label">Faction Population</div>
+          <div id="pp-factions-bar"></div>
+        </div>
+        <div id="pp-resources-section">
+          <div class="section-label">Province Resources</div>
+          <div id="pp-res-outputs"></div>
+        </div>
+        <div id="pp-misc"></div>
+      </div>
+    </div>
+    <div id="ltab-build" class="ltab-page hidden">
+      <div id="build-none">Select an owned province first.</div>
+      <div id="build-body" class="hidden">
         <h3>Buildings</h3>
-        <div id="pp-buildings"></div>
-        <div id="pp-queue"></div>
+        <div id="build-current"></div>
+        <h3>Build Queue</h3>
+        <div id="build-queue"></div>
+        <h3>Construct</h3>
+        <div id="build-options"></div>
+      </div>
+    </div>
+    <div id="ltab-military" class="ltab-page hidden">
+      <div id="mil-none">Select a province first.</div>
+      <div id="mil-body" class="hidden">
+        <h3>Units Here</h3>
+        <div id="mil-units"></div>
+        <div id="mil-actions"></div>
         <h3>Recruit</h3>
-        <div id="pp-recruit"></div>
-        <h3>Units here</h3>
-        <div id="pp-units"></div>
-        <div id="pp-actions"></div>
+        <div id="mil-recruit"></div>
+      </div>
+    </div>
+    <div id="ltab-intel" class="ltab-page hidden">
+      <div id="intel-none">Select an enemy province to view intel options.</div>
+      <div id="intel-body" class="hidden">
+        <h3>Spy Network</h3>
+        <div id="intel-level"></div>
+        <h3>Operations</h3>
+        <div id="intel-ops"></div>
+        <h3>Intel Report</h3>
+        <div id="intel-report"></div>
       </div>
     </div>
   </div>
 
+  <!-- MAP -->
   <div id="map-wrap">
     <canvas id="map" width="960" height="540"></canvas>
-    <div id="map-hint">Drag to pan · Scroll to zoom · Click a province to select</div>
+    <div id="map-hint">Drag to pan &middot; Scroll to zoom &middot; Click a province</div>
     <div id="banner" class="hidden"></div>
+    <div id="map-tooltip" class="hidden"></div>
   </div>
 
+  <!-- RIGHT PANEL -->
   <div id="right-panel">
     <div class="tabs">
-      <button class="tab active" data-tab="nations">Nations</button>
-      <button class="tab" data-tab="research">Research</button>
-      <button class="tab" data-tab="log">Events</button>
+      <button class="tab active" data-rtab="nations">Nations</button>
+      <button class="tab" data-rtab="diplomacy">Diplomacy</button>
+      <button class="tab" data-rtab="politics">Politics</button>
+      <button class="tab" data-rtab="research">Research</button>
+      <button class="tab" data-rtab="events">Events</button>
     </div>
-    <div id="tab-nations" class="tab-page panel"></div>
-    <div id="tab-research" class="tab-page panel hidden"></div>
-    <div id="tab-log" class="tab-page panel hidden"></div>
+    <div id="rtab-nations" class="rtab-page panel"></div>
+    <div id="rtab-diplomacy" class="rtab-page panel hidden"></div>
+    <div id="rtab-politics" class="rtab-page panel hidden"></div>
+    <div id="rtab-research" class="rtab-page panel hidden"></div>
+    <div id="rtab-events" class="rtab-page panel hidden"></div>
   </div>
 </div>
 
+<!-- ===== MODALS ===== -->
+
+<!-- Start Modal -->
 <div id="start-modal" class="modal">
   <div class="modal-box">
-    <h1>World Conflict</h1>
-    <p class="sub">A real-time grand strategy game. Conquer 55% of the world's provinces to win. No purchases, no premium currency. Just strategy.</p>
-    <label>Map seed <input id="seed-input" type="text" placeholder="random"></label>
-    <h3>Choose your nation</h3>
+    <h1>&#127760; World Conflict</h1>
+    <p class="sub">Real-time grand strategy. Build cities, command armies, manage politics, and conquer the world. Dominate 55% of provinces to win.</p>
+    <label>Map Seed <input id="seed-input" type="text" placeholder="random (or enter text)"></label>
+    <h3>Choose Your Nation</h3>
     <div id="nation-picker"></div>
   </div>
 </div>
 
+<!-- Election Modal -->
+<div id="election-modal" class="modal hidden">
+  <div class="modal-box">
+    <h1>&#128683; ELECTION DAY</h1>
+    <p id="election-desc"></p>
+    <div id="election-factions"></div>
+    <div id="election-result" class="hidden">
+      <h2 id="election-outcome"></h2>
+      <p id="election-outcome-text"></p>
+      <button id="btn-election-close">Continue</button>
+    </div>
+    <div id="election-voting">
+      <p style="color:var(--dim)">The vote is being tallied...</p>
+      <button id="btn-election-vote">Hold Election</button>
+    </div>
+  </div>
+</div>
+
+<!-- Event Modal -->
+<div id="event-modal" class="modal hidden">
+  <div class="modal-box">
+    <div id="event-category" class="event-cat"></div>
+    <h2 id="event-title"></h2>
+    <p id="event-desc"></p>
+    <div id="event-choices"></div>
+  </div>
+</div>
+
+<!-- End Modal -->
 <div id="end-modal" class="modal hidden">
   <div class="modal-box">
     <h1 id="end-title"></h1>

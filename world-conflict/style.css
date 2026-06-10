@@ -1,0 +1,176 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #10141a;
+  --panel: #1a2029;
+  --panel2: #222a36;
+  --border: #2e3947;
+  --text: #d6dde6;
+  --dim: #8a96a3;
+  --accent: #4da3ff;
+  --good: #5fd068;
+  --bad: #e5604c;
+}
+
+html, body { height: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.hidden { display: none !important; }
+
+/* ---------- Top bar ---------- */
+#topbar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 8px 14px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+#nation-badge { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+#nation-flag { width: 16px; height: 16px; border-radius: 3px; display: inline-block; background: #555; }
+
+#resources { display: flex; gap: 16px; }
+.res b { font-variant-numeric: tabular-nums; }
+.res i { font-style: normal; color: var(--dim); font-size: 11px; margin-left: 3px; }
+
+#clock { color: var(--dim); }
+#clock b { color: var(--text); font-variant-numeric: tabular-nums; }
+
+#speed-controls { display: flex; gap: 4px; margin-left: auto; }
+
+button {
+  background: var(--panel2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 13px;
+}
+button:hover:not(:disabled) { border-color: var(--accent); }
+button:disabled { opacity: 0.45; cursor: default; }
+button.active { background: var(--accent); color: #08111c; border-color: var(--accent); }
+
+/* ---------- Layout ---------- */
+#layout { flex: 1; display: flex; min-height: 0; }
+
+#left-panel, #right-panel {
+  width: 295px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  background: var(--panel);
+  padding: 10px;
+}
+#left-panel { border-right: 1px solid var(--border); }
+#right-panel { border-left: 1px solid var(--border); display: flex; flex-direction: column; }
+
+.panel h2 { font-size: 16px; margin-bottom: 8px; }
+.panel h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--dim); margin: 12px 0 6px; }
+
+#map-wrap { flex: 1; position: relative; min-width: 0; background: #0a0e13; }
+#map { width: 100%; height: 100%; display: block; cursor: crosshair; }
+#map-hint {
+  position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+  color: var(--dim); font-size: 11px; pointer-events: none;
+  background: rgba(10,14,19,0.7); padding: 2px 10px; border-radius: 10px;
+}
+
+#banner {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  background: var(--panel2); border: 1px solid var(--accent);
+  padding: 8px 18px; border-radius: 6px; font-weight: 600;
+  pointer-events: none; z-index: 5;
+}
+
+/* ---------- Province panel ---------- */
+#pp-owner { margin-bottom: 6px; }
+#pp-info { color: var(--dim); font-size: 13px; margin-bottom: 4px; }
+
+.brow, .urow, .rrow {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 6px; padding: 4px 6px; border-radius: 4px; margin-bottom: 3px;
+  background: var(--panel2); font-size: 13px;
+}
+.brow button, .urow button, .rrow button { padding: 2px 8px; font-size: 12px; flex-shrink: 0; }
+.cost { color: var(--dim); font-size: 11px; }
+
+.urow label { display: flex; align-items: center; gap: 6px; flex: 1; cursor: pointer; }
+.urow .hp { color: var(--dim); font-size: 11px; }
+
+#pp-actions { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+#pp-actions button { width: 100%; }
+.move-arming { outline: 2px solid var(--accent); }
+
+.queue-item { color: var(--accent); font-size: 12px; padding: 2px 6px; }
+
+/* ---------- Right panel tabs ---------- */
+.tabs { display: flex; gap: 4px; margin-bottom: 10px; }
+.tab { flex: 1; }
+.tab-page { flex: 1; overflow-y: auto; }
+
+.nation-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px; border-radius: 5px; background: var(--panel2); margin-bottom: 5px;
+}
+.nation-row .swatch { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; }
+.nation-row .nr-info { flex: 1; min-width: 0; }
+.nation-row .nr-name { font-weight: 600; font-size: 13px; }
+.nation-row .nr-stats { color: var(--dim); font-size: 11px; }
+.nation-row .rel { font-size: 11px; font-weight: 700; }
+.rel.war { color: var(--bad); }
+.rel.peace { color: var(--good); }
+.nation-row.dead { opacity: 0.4; }
+.nation-row button { font-size: 11px; padding: 2px 7px; }
+
+.tech-row {
+  padding: 6px 8px; border-radius: 5px; background: var(--panel2); margin-bottom: 5px;
+  font-size: 13px;
+}
+.tech-row .tr-head { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+.tech-row .desc { color: var(--dim); font-size: 11px; margin-top: 2px; }
+.tech-row.done { border-left: 3px solid var(--good); }
+.tech-row.current { border-left: 3px solid var(--accent); }
+.progressbar { height: 4px; background: var(--border); border-radius: 2px; margin-top: 5px; overflow: hidden; }
+.progressbar > div { height: 100%; background: var(--accent); }
+
+.log-item { font-size: 12px; padding: 4px 6px; border-bottom: 1px solid var(--border); }
+.log-item .lt { color: var(--dim); margin-right: 6px; font-variant-numeric: tabular-nums; }
+
+/* ---------- Modals ---------- */
+.modal {
+  position: fixed; inset: 0; background: rgba(5,8,12,0.85);
+  display: flex; align-items: center; justify-content: center; z-index: 50;
+}
+.modal-box {
+  background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+  padding: 28px 34px; max-width: 560px; width: 92%;
+  max-height: 88vh; overflow-y: auto;
+}
+.modal-box h1 { margin-bottom: 8px; }
+.modal-box .sub { color: var(--dim); margin-bottom: 16px; }
+.modal-box label { display: block; margin-bottom: 14px; color: var(--dim); }
+.modal-box input {
+  background: var(--panel2); border: 1px solid var(--border); color: var(--text);
+  border-radius: 5px; padding: 5px 9px; margin-left: 8px;
+}
+
+#nation-picker { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+.pick-nation {
+  display: flex; align-items: center; gap: 9px; padding: 10px;
+  text-align: left;
+}
+.pick-nation .swatch { width: 15px; height: 15px; border-radius: 4px; }
+.pick-nation small { display: block; color: var(--dim); }
+
+#btn-end-new { margin-top: 14px; padding: 8px 22px; }
